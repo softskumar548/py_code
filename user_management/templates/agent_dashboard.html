@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+
+{% block title %}Agent Dashboard{% endblock %}
+
+{% load crispy_forms_tags %}
+
+{% block content %}
+<h1>Welcome, {{ agent.username }}!</h1>
+
+    <div class="actions">
+        <a href="{% url 'create_client' %}" style="text-decoration: none; padding: 10px; background: #28a745; color: #fff; border-radius: 5px;">+ Create New Client</a>
+    </div>
+
+    <h2>Your Created Clients</h2>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Company Name</th>
+                <th>Contact Person</th>
+                <th>Phone</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for client in created_clients %}
+            <tr>
+                <td>{{ client.company_name }}</td>
+                <td>{{ client.details.contact_person_name }}</td>
+                <td>{{ client.details.phone }}</td>
+                <td>
+                    <a href="{% url 'edit_client' client.user.id %}">Edit</a>
+                    <a href="{% url 'view_client' client.user.id %}">View Details</a>
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="4">No clients created yet.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

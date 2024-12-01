@@ -1,0 +1,146 @@
+
+{% extends "base.html" %}
+
+{% block title %}Edit Client{% endblock %}
+
+{% load crispy_forms_tags %}
+
+{% block content %}
+<h1>Edit Client</h1>
+
+<form method="POST">
+    {% csrf_token %}
+
+    <!-- Show overall error message if available -->
+    {% if error %}
+    <div class="error">{{ error }}</div>
+    {% endif %}
+
+    <!-- Edit Client Information -->
+    <fieldset>
+        <legend>Client Information</legend>
+        {{ user_form.as_p }}
+    </fieldset>
+
+    <!-- Edit Client Profile -->
+    <fieldset>
+        <legend>Client Profile</legend>
+        {{ client_form.as_p }}
+    </fieldset>
+
+    <!-- Edit Additional Details -->
+    <fieldset>
+        <legend>Additional Details</legend>
+        {{ details_form.as_p }}
+    </fieldset>
+
+    <!-- Edit Configurable Fields -->
+    <fieldset>
+        <legend>Configurable Fields</legend>
+        <table class="table" id="configurable-fields-table">
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Field Name</th>
+                    <th>Label</th>
+                    <th>Type</th>
+                    <th>Required</th>
+                    <th>Choices</th>
+                    <th>Hidden</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for form in formset %}
+                <tr>
+                    <!-- Hidden ID Field -->
+                     <td style="display: none;">
+                        {{ form.id }}
+                    </td>
+                    <td>
+                        {{ form.name.errors.as_ul }}
+                        {{ form.name }}
+                    </td>
+                    <td>
+                        {{ form.label.errors.as_ul }}
+                        {{ form.label }}
+                    </td>
+                    <td>
+                        {{ form.field_type.errors.as_ul }}
+                        {{ form.field_type }}
+                    </td>
+                    <td>
+                        {{ form.required.errors.as_ul }}
+                        {{ form.required }}
+                    </td>
+                    <td>
+                        {{ form.choices.errors.as_ul }}
+                        {{ form.choices }}
+                    </td>
+                    <td>
+                        {{ form.hidden.errors.as_ul }}
+                        {{ form.hidden }}
+                    </td>
+                    <td>
+                        {% if form.instance.pk %}
+                            <input type="checkbox" name="{{ form.prefix }}-DELETE"> Delete
+                        {% else %}
+                            <button type="button" class="remove-row">Remove</button>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {{ formset.management_form }}
+
+        <div class="actions">
+            <button type="button" id="add-field">Add Additional Field</button>
+        </div>
+    </fieldset>
+
+    <!-- Save Changes Button -->
+    <div class="actions">
+        <button type="submit" class="btn btn-primary">Save Changes</button>
+        <a href="{% url 'superuser_dashboard' %}" class="btn btn-secondary">Cancel</a>
+    </div>
+</form>
+
+{% block scripts %}
+<script>
+    document.getElementById('add-field').addEventListener('click', function () {
+        const table = document.getElementById('configurable-fields-table').querySelector('tbody');
+        const totalFormsInput = document.querySelector('input[name="form-TOTAL_FORMS"]');
+        const totalForms = parseInt(totalFormsInput.value);
+    
+        const lastRow = table.querySelector('tr:last-child');
+        const newRow = lastRow.cloneNode(true);
+    
+        newRow.querySelectorAll('input, select, textarea').forEach(input => {
+            if (input.name) {
+                input.name = input.name.replace(`form-${totalForms - 1}`, `form-${totalForms}`);
+                input.id = input.id.replace(`form-${totalForms - 1}`, `form-${totalForms}`);
+                input.value = ''; // Clear values for new rows
+                if (input.type === 'checkbox') {
+                    input.checked = false;
+                }
+    
+                // Remove the ID field for new rows
+                if (input.name.includes('-id')) {
+                    input.remove();
+                }
+            }
+        });
+    
+        const actionCell = newRow.querySelector('td:last-child');
+        actionCell.innerHTML = '<button type="button" class="remove-row">Remove</button>';
+    
+        table.appendChild(newRow);
+        totalFormsInput.value = totalForms + 1;
+    });
+    
+    
+</script>
+{% endblock %}
+{% endblock %}
+

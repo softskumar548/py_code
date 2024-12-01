@@ -1,0 +1,129 @@
+
+{% extends "base.html" %}
+
+{% block title %}Create Client{% endblock %}
+
+{% load crispy_forms_tags %}
+
+{% block content %}
+<h1>Create Client</h1>
+
+{% if error %}
+<div class="alert alert-danger">{{ error }}</div>
+{% endif %}
+
+<form method="POST">
+    {% csrf_token %}
+    <fieldset>
+        <legend>Client Information</legend>
+        {{ form.as_p }}
+    </fieldset>
+
+    <fieldset>
+        <legend>Client Profile</legend>
+        {{ client_form.as_p }}
+    </fieldset>
+
+    <fieldset>
+        <legend>Additional Client Details</legend>
+        {{ details_form.as_p }}
+    </fieldset>
+
+    <fieldset>
+        <legend>Configurable Fields</legend>
+        <table id="configurable-fields-table" class="table">
+            <thead>
+                <tr>
+                    <th>Field Name</th>
+                    <th>Field Label</th>
+                    <th>Field Type</th>
+                    <th>Required</th>
+                    <th>Choices (Comma-Separated)</th>
+                    <th>Hide Field</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Template row for adding configurable fields dynamically -->
+                <tr id="template-row" style="display: none;">
+                    <td><input type="text" name="field_name" class="form-control"></td>
+                    <td><input type="text" name="field_label" class="form-control"></td>
+                    <td>
+                        <select name="field_type" class="form-control">
+                            <option value="text">Text</option>
+                            <option value="textarea">Textarea</option>
+                            <option value="radio">Radio</option>
+                            <option value="checkbox">Checkbox</option>
+                            <option value="dropdown">Dropdown</option>
+                            <option value="star_rating">Star Rating</option>
+                        </select>
+                    </td>
+                    <td><input type="checkbox" name="field_required"></td>
+                    <td>
+                        <textarea name="field_choices" class="form-control" rows="2" placeholder="Comma-separated values"></textarea>
+                    </td>
+                    <td><input type="checkbox" name="field_hidden"></td>
+                    <td><button type="button" class="btn btn-danger remove-field">Remove</button></td>
+                </tr>
+            </tbody>
+        </table>
+        <button type="button" id="add-field" class="btn btn-primary">Add Field</button>
+    </fieldset>
+
+    <button type="submit" class="btn btn-success">Create Client</button>
+    <a href="{% url 'superuser_dashboard' %}" class="btn btn-secondary">Cancel</a>
+</form>
+
+
+{% block scripts %}
+<script>
+    document.getElementById('add-field').addEventListener('click', function() {
+        const table = document.getElementById('configurable-fields-table').getElementsByTagName('tbody')[0];
+        const newRow = document.getElementById('template-row').cloneNode(true);
+        newRow.style.display = ''; // Make the row visible
+        newRow.removeAttribute('id'); // Remove the ID to avoid duplicates
+        newRow.querySelectorAll('input, select, textarea').forEach(input => {
+            if (input.type === 'checkbox') {
+                input.checked = false; // Clear checkboxes
+            } else {
+                input.value = ''; // Clear input values
+            }
+        });
+        table.appendChild(newRow);
+    });
+    
+    // Ensure the hidden template row is not submitted
+    document.querySelector('form').addEventListener('submit', function() {
+        const templateRow = document.getElementById('template-row');
+        if (templateRow) {
+            templateRow.remove(); // Remove the hidden row before submission
+        }
+    });
+
+    document.addEventListener('DOMContentLoaded', () => {
+        const starRatings = document.querySelectorAll('.star-rating');
+    
+        starRatings.forEach(rating => {
+            const radios = rating.querySelectorAll('input[type="radio"]');
+            radios.forEach((radio, index) => {
+                radio.addEventListener('change', () => {
+                    // Highlight the stars up to the selected one
+                    radios.forEach((r, i) => {
+                        if (i <= index) {
+                            r.parentNode.classList.add('selected');
+                        } else {
+                            r.parentNode.classList.remove('selected');
+                        }
+                    });
+                });
+            });
+        });
+    });
+    
+</script>
+{% endblock %}
+{% endblock %}
+
+
+
+

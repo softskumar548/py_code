@@ -1,0 +1,111 @@
+
+
+{% extends "base.html" %}
+
+{% block title %}Superuser Dashboard!{% endblock %}
+
+{% block content %}
+<style>
+    table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+    th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+    th { background-color: #f4f4f4; }
+</style>
+
+<h1>Welcome, Superuser!</h1>
+<p>This is the superuser dashboard.</p>
+
+<br>
+<br>
+
+<a href="{% url 'create_agent' %}" class="btn btn-primary">Create Agent</a>
+<a href="{% url 'create_client' %}" class="btn btn-primary">Create Client</a>
+
+<button id="show-agents" class="btn btn-primary">Show Agents</button>
+<button id="show-clients" class="btn btn-secondary">Show Clients</button>
+
+
+<div id="agents-section">
+    <h2>Agents</h2>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Username</th>
+                <th>Email</th>
+                <th>Created At</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for agent in agents %}
+            <tr>
+                <td>{{ agent.username }}</td>
+                <td>{{ agent.email }}</td>
+                <td>{{ agent.created_at }}</td>
+                <td>
+                    <a href="{% url 'view_agent' agent.id %}" class="btn btn-primary btn-sm">View</a>
+                    <a href="{% url 'edit_agent' agent.id %}" class="btn btn-secondary btn-sm">Edit</a>
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="4">No agents found.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+
+<div id="clients-section" style="display: none;">
+    <h2>Clients</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Username</th>
+                <th>Company Name</th>
+                <th>Email</th>
+                <th>Created By</th>
+                <th>Created At</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for client in clients %}
+            <tr>
+                <td>{{ client.username }}</td>
+                <td>{{ client.client_profile.company_name }}</td>
+                <td>{{ client.email }}</td>
+                <td>{{ client.created_by.username }}</td>
+                <td>{{ client.created_at|date:"d M Y - h:i A" }}</td>
+                <td>
+                    <a href="{% url 'edit_client' client.id %}">Edit</a>
+                    <a href="{% url 'view_client' client.id %}">View Details</a>
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="6">No clients found.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<script>
+    // JavaScript to toggle between agents and clients
+    document.getElementById('show-agents').addEventListener('click', function() {
+        document.getElementById('agents-section').style.display = 'block';
+        document.getElementById('clients-section').style.display = 'none';
+    });
+
+    document.getElementById('show-clients').addEventListener('click', function() {
+        document.getElementById('clients-section').style.display = 'block';
+        document.getElementById('agents-section').style.display = 'none';
+    });
+</script>
+
+{% endblock %}
+
+
+
+

@@ -1,0 +1,17 @@
+<
+
+{% extends "base.html" %}
+
+{% block title %}Agent Details{% endblock %}
+
+{% load crispy_forms_tags %}
+
+{% block content %}
+<h1>Agent Details</h1>
+<p><strong>Username:</strong> {{ agent.username }}</p>
+<p><strong>Email:</strong> {{ agent.email }}</p>
+<p><strong>Created At:</strong> {{ agent.created_at }}</p>
+<a href="{% url 'superuser_dashboard' %}" class="btn btn-primary">Back to Dashboard</a>
+
+
+{% endblock %}

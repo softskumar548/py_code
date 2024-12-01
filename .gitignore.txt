@@ -1,0 +1,58 @@
+# Python Bytecode
+*.pyc
+*.pyo
+__pycache__/
+
+# Django local settings
+local_settings.py
+
+# Environment Variables
+.env
+
+# Django migrations
+*/migrations/*
+*.log
+
+# Media uploads
+/media/
+
+# Static files
+/static/
+/staticfiles/
+
+# Virtual environments
+venv/
+ENV/
+
+# VS Code settings
+.vscode/
+
+# macOS files
+.DS_Store
+
+# IDE files
+.idea/
+
+# PyCharm files
+*.iml
+*.ipr
+*.iws
+
+# Database
+*.sqlite3
+
+# pytest cache
+.pytest_cache/
+
+# Coverage reports
+htmlcov/
+.coverage
+
+# Logs
+*.log
+
+# Ignore build artifacts
+*.egg-info/
+dist/
+build/
+.eggs/

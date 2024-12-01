@@ -1,0 +1,15 @@
+
+{% extends "base.html" %}
+
+{% block title %}Create Agent{% endblock %}
+
+{% load crispy_forms_tags %}
+
+{% block content %}
+<h1>Create Agent</h1>
+<form method="POST">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" class="btn btn-primary">Create Agent</button>
+</form>
+{% endblock %}

@@ -1,0 +1,73 @@
+
+{% extends "base.html" %}
+
+{% block title %}{{ client.company_name }} - Feedback{% endblock %}
+
+{% load crispy_forms_tags %}
+
+{% block css %}
+<style>
+    /* Star Rating Style */
+    .star-rating i {
+        font-size: 2rem;
+        color: #ccc;
+        cursor: pointer;
+    }
+    .star-rating i.selected {
+        color: gold;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<h1>Welcome to {{ client.company_name }}</h1>
+    <p><strong>Contact Person:</strong> {{ details.contact_person_name }}</p>
+    <p><strong>Address:</strong> {{ client.address }}</p>
+    <p><strong>Phone:</strong> {{ details.phone }}</p>
+    <p><strong>Created At:</strong> {{ client.created_at }}</p>
+    <p><strong>Created By:</strong> {{ client.created_by.username }}</p>
+    <p><strong>Email:</strong> {{ user.email }}</p>
+
+    <h2>Feedback Form</h2>
+    <form method="POST">
+        {% csrf_token %}
+        
+        {% for field in form %}
+            <div class="mb-3">
+                <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                {% if field.field.widget.attrs.class == "star-rating" %}
+                    <!-- Render Star Rating Widget -->
+                    <div class="star-rating" id="star-rating-widget-{{ field.name }}">
+                        <i class="fa fa-star" data-value="1"></i>
+                        <i class="fa fa-star" data-value="2"></i>
+                        <i class="fa fa-star" data-value="3"></i>
+                        <i class="fa fa-star" data-value="4"></i>
+                        <i class="fa fa-star" data-value="5"></i>
+                    </div>
+                    <input type="hidden" id="id_{{ field.name }}" name="{{ field.name }}">
+                {% else %}
+                    {{ field }}
+                {% endif %}
+            </div>
+        {% endfor %}
+        
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+
+    {% block scripts %}
+    <script>
+        $(document).ready(function () {
+            // Initialize star rating widget
+            $('.star-rating i').on('click', function () {
+                const value = $(this).data('value');
+                const container = $(this).closest('.star-rating');
+                container.find('i').each(function () {
+                    $(this).toggleClass('selected', $(this).data('value') <= value);
+                });
+                container.siblings('input').val(value); // Set hidden input value
+            });
+        });
+    </script>
+    {% endblock %}
+{% endblock %}
+

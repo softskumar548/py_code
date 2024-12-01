@@ -1,0 +1,108 @@
+
+{% extends "base.html" %}
+
+{% block title %}Client Details{% endblock %}
+
+{% load crispy_forms_tags %}
+
+{% block content %}
+<h1>Client Details</h1>
+
+<!-- Basic Client Information -->
+<p><strong>Username:</strong> {{ client.username }}</p>
+<p><strong>Email:</strong> {{ client.email }}</p>
+<p><strong>Created At:</strong> {{ client.created_at }}</p>
+
+<!-- Client Profile -->
+<h2>Company Information</h2>
+<p><strong>Company Name:</strong> {{ client_profile.company_name }}</p>
+<p><strong>Address:</strong> {{ client_profile.address }}</p>
+
+<!-- Additional Details -->
+<h2>Additional Details</h2>
+<p><strong>Phone:</strong> {{ additional_details.phone }}</p>
+<p><strong>Contact Person:</strong> {{ additional_details.contact_person_name }}</p>
+<p><strong>URL Path:</strong> {{ additional_details.url_path }}</p>
+<p><strong>Plan:</strong>
+    {% if additional_details.plan %}
+        {{ additional_details.plan.name }}
+    {% else %}
+        Not Assigned
+    {% endif %}
+</p>
+<p><strong>Expiration Date:</strong> {{ additional_details.expiration_date|date:"d M Y - h:i:s A" }}</p>
+
+<!-- Configurable Fields -->
+<h2>Configurable Fields</h2>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Field Name</th>
+            <th>Label</th>
+            <th>Type</th>
+            <th>Required</th>
+            <th>Choices</th>
+            <th>Hidden</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for field in configurable_fields %}
+        <tr>
+            <td>{{ field.name }}</td>
+            <td>{{ field.label }}</td>
+            <td>{{ field.field_type }}</td>
+            <td>
+                {% if field.required %}
+                    Yes
+                {% else %}
+                    No
+                {% endif %}
+            </td>
+            <td>{{ field.choices }}</td>
+            <td>
+                {% if field.hidden %}
+                    Yes
+                {% else %}
+                    No
+                {% endif %}
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+
+<!-- Client Responses -->
+{% comment %} <h2>Client Responses</h2>
+{% if client_responses %}
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Submitted At</th>
+                <th>Response Data</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for response in client_responses %}
+            <tr>
+                <td>{{ response.submitted_at }}</td>
+                <td>
+                    <ul>
+                        {% for key, value in response.data.items %}
+                        <li><strong>{{ key }}:</strong> {{ value }}</li>
+                        {% endfor %}
+                    </ul>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% else %}
+    <p>No responses submitted yet.</p>
+{% endif %} {% endcomment %}
+
+<a href="{% url 'superuser_dashboard' %}" class="btn btn-primary">Back to Dashboard</a>
+
+{% endblock %}
+
+
