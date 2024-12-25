@@ -6,5 +6,6 @@ class UserManagementConfig(AppConfig):
     name = 'user_management'
 
     def ready(self):
-        from .models import Role
-        Role.default_roles()
+        # from .models import Role
+        # Role.default_roles()
+        pass

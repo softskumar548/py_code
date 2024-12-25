@@ -1,14 +1,94 @@
 {% extends "base.html" %}
 
+{% load static %}
+
 {% block title %}Welcome to ScanPulse{% endblock %}
 
 {% block content %}
-<div class="text-center mt-5">
-    <h1>Welcome to ScanPulse</h1>
-    <p>Your one-stop solution for client and agent management</p>
+
+ <!-- Hero Section -->
+ <section id="hero" class="hero section dark-background">
     
-    {% comment %} <div class="mt-4">
-        <a href="{% url 'login' %}" class="btn btn-primary btn-lg">Login</a>
-    </div> {% endcomment %}
-</div>
+    <div id="hero-carousel" class="carousel slide carousel-fade" data-bs-ride="carousel" data-bs-interval="5000">
+
+      <div class="carousel-item active">
+        <img src="{% static 'img/hero-carousel/hero-carousel-1.jpg' %}" alt="">
+        <div class="carousel-container">
+          <h2>Welcome to ScanPuls<br></h2>
+          <p>Empower your organization with dynamic, customizable forms designed to adapt to your unique business requirements. Streamline processes and enhance data collection with a professional and user-friendly solution tailored to meet modern organizational needs.</p>
+          <a href="#featured-services" class="btn-get-started">Schedule a Demo</a>
+        </div>
+      </div><!-- End Carousel Item -->
+
+      <div class="carousel-item">
+        <img src="{% static 'img/hero-carousel/hero-carousel-2.jpg' %}" alt="">
+        <div class="carousel-container">
+          <h2>Simplified Digital Access</h2>
+          <p>Provide secure and effortless access to your forms through dedicated URLs and QR codes. Ensure smooth interaction with users while maintaining a professional and streamlined approach to data collection, designed for seamless integration with your business operations.</p>
+          <a href="#featured-services" class="btn-get-started">Schedule a Demo</a>
+        </div>
+      </div><!-- End Carousel Item -->
+
+      <div class="carousel-item">
+        <img src="{% static 'img/hero-carousel/hero-carousel-3.jpg ' %}" alt="">
+        <div class="carousel-container">
+          <h2>Advanced Data Insights</h2>
+          <p>Leverage cutting-edge analytics and real-time data insights to make informed decisions. With intuitive dashboards and powerful tools, track performance metrics and identify trends that drive business success, all through a centralized platform.</p>
+          <a href="#featured-services" class="btn-get-started">Schedule a Demo</a>
+        </div>
+      </div><!-- End Carousel Item -->
+
+      <a class="carousel-control-prev" href="#hero-carousel" role="button" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon bi bi-chevron-left" aria-hidden="true"></span>
+      </a>
+
+      <a class="carousel-control-next" href="#hero-carousel" role="button" data-bs-slide="next">
+        <span class="carousel-control-next-icon bi bi-chevron-right" aria-hidden="true"></span>
+      </a>
+
+      <ol class="carousel-indicators"></ol>
+
+    </div>
+
+  </section><!-- /Hero Section -->
+
+  <!-- About Section -->
+  <section id="about" class="about section">
+
+    <!-- Section Title -->
+    <div class="container section-title" data-aos="fade-up">
+      <h2>About</h2>
+      <p>About Us<br></p>
+    </div><!-- End Section Title -->
+
+    <div class="container">
+
+      <div class="row gy-4">
+
+        <div class="col-lg-6 content" data-aos="fade-up" data-aos-delay="100">
+          <p>
+            ScanPuls is dedicated to revolutionizing the way businesses collect and analyze data. We provide tailored solutions designed to meet unique operational needs, ensuring efficiency and precision at every step.
+          </p>
+          <ul>
+            <li><i class="bi bi-check2-circle"></i> <span><strong>Customizable Solutions:</strong> Dynamic forms built to align with your specific requirements.</span></li>
+            <li><i class="bi bi-check2-circle"></i> <span><strong>Secure Access:</strong> Unique URLs and QR codes for seamless and secure engagement.</span></li>
+            <li><i class="bi bi-check2-circle"></i> <span><strong>Real-Time Analytics:</strong> Actionable insights to enhance decision-making and drive success.</span></li>
+          </ul>
+        </div>
+
+        <div class="col-lg-6" data-aos="fade-up" data-aos-delay="200">
+          <p>Our mission is to empower organizations with tools that simplify processes, maximize productivity, and ensure a professional experience for users. Let us help you take your business to the next level. </p>
+          <a href="about.html" class="read-more"><span>Read More</span><i class="bi bi-arrow-right"></i></a>
+        </div>
+
+      </div>
+
+    </div>
+
+  </section><!-- /About Section -->
+
+
+</main>
+
+
 {% endblock %}
