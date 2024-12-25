@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-_e^jwd4_supl1$!tg3pbs+s9wi#tiwo!#%2n=(k6+k003o($_8
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [ 'softskumar548.pythonanywhere.com' ]
 
 
 # Application definition
@@ -125,7 +125,10 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 
+STATICFILES_DIRS = [BASE_DIR / "scan_pulse_main" / "static"]
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+STATIC_ROOT = BASE_DIR / "staticfiles"
